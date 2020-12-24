@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+VAULT_ADDR=http://localhost:9400
 vault kv get -format json alfresco/env1  |jq ".data.data"
 
 # Produces output similar to the following, providing the following data was stored in a hashicorp vault KV engine
