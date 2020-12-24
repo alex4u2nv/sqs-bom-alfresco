@@ -1,0 +1,46 @@
+#!/usr/bin/python
+import argparse
+import logging
+import os
+import sys
+import time
+from daemons import daemonizer
+
+from sqsalf.controller import MapCreated
+
+logging.basicConfig(filename="sqs-alfresco.log", encoding='utf-8', level=logging.ERROR)
+help = "Monitor a folder and write events to SQS"
+
+parser = argparse.ArgumentParser(description=help)
+
+parser.add_argument("-c", "--config-file",
+                    help="path/to-config/file.yaml",
+                    required=True)
+
+args = parser.parse_args()
+
+
+def main():
+    config_file = args.config_file
+    mapper = MapCreated(config_file=config_file)
+    mapper.map()
+
+
+main()
+
+if __name__ == "__main__":
+    myname = os.path.basename(sys.argv[0])
+    pidfile = '/tmp/%s' % myname
+    logging.info('Starting as daemon {name}'.format(name=myname))
+    pid_path = "/tmp/{name}.pid".format(name=myname)
+
+
+    @daemonizer.run(pidfile=pid_path)
+    def run():
+        print("PID File: " + pid_path)
+        f = open(pid_path, "r")
+        print("PID: " + f.read())
+        main()
+
+
+    run()

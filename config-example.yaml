@@ -1,0 +1,24 @@
+---
+sqs_url: https://sqs.us-east-1.amazonaws.com/accountid/queue
+
+  # unmarshalling the json event from SQS
+  # Example would be an event created from in this format:
+  # {
+  #  "event_type": "modified",
+#  "is_directory": false,
+#  "src_path": "/path/to/alf_data/contentstore/inplace/CCF11162015.pdf"
+#}
+event:
+  type: event_type
+  directory: is_directory
+  path: src_path
+
+import_event: created
+drop_other_events: true # clean up the queue for other events like modified, etc. (since inplace import. it's important there are no deletes, etc.)
+max_batch: 100
+
+alfresco:
+  url: https://your.alfresco.com/alfresco
+  # Return a json username and password statically, or from vault
+  # example: echo '{ "username": "user", "password": "passwd" }'
+  username_password_script: ./example-vault.sh
