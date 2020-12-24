@@ -43,7 +43,7 @@ class MapCreated:
                         created_events))
                 batch_content_list = batch_content_list + content_list
                 batch_event_list = batch_event_list + event_list
-                if len(batch_content_list > 100):
+                if len(batch_content_list) > 100:
                     self.save(batch_content_list, batch_event_list)
                     batch_content_list = []
                     batch_event_list = []
