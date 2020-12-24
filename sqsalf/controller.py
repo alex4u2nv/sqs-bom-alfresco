@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 from typing import List
 
 import yaml
@@ -42,10 +43,20 @@ class MapCreated:
                         created_events))
                 batch_content_list = batch_content_list + content_list
                 batch_event_list = batch_event_list + event_list
+                if len(batch_content_list > 100):
+                    self.save(batch_content_list, batch_event_list)
+                    batch_content_list = []
+                    batch_event_list = []
+                time.sleep(10)
             else:
-                try:
-                    self.acs.map_files(self.config.get("alfresco").get("root_noderef"), batch_content_list)
-                    self.sqs.delete_messages(batch_event_list)
-                except Exception as e:
-                    logging.error("Couldn't map files")
-                    logging.error(e)
+                self.save(batch_content_list, batch_event_list)
+                batch_content_list = []
+                batch_event_list = []
+
+    def save(self, batch_content_list, batch_event_list):
+        try:
+            self.acs.map_files(self.config.get("alfresco").get("root_noderef"), batch_content_list)
+            self.sqs.delete_messages(batch_event_list)
+        except Exception as e:
+            logging.error("Couldn't map files")
+            logging.error(e)
