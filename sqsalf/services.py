@@ -63,6 +63,6 @@ class SQS:
     def delete_messages(self, event_list: List[Event]):
         for e in event_list:
             self.sqs.delete_message(
-                QueueUrl='string',
+                QueueUrl=self.queue_url,
                 ReceiptHandle=e.receipt_handle
             )
