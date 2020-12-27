@@ -47,7 +47,7 @@ class MapCreated:
                     self.save(batch_content_list, batch_event_list)
                     batch_content_list = []
                     batch_event_list = []
-                time.sleep(10)
+                    time.sleep(10)
             else:
                 self.save(batch_content_list, batch_event_list)
                 batch_content_list = []
@@ -55,8 +55,10 @@ class MapCreated:
 
     def save(self, batch_content_list, batch_event_list):
         try:
-            self.acs.map_files(self.config.get("alfresco").get("root_noderef"), batch_content_list)
-            self.sqs.delete_messages(batch_event_list)
+            if len(batch_content_list) > 0:
+                self.acs.map_files(self.config.get("alfresco").get("root_noderef"), batch_content_list)
+            if len(batch_event_list) > 0:
+                self.sqs.delete_messages(batch_event_list)
         except Exception as e:
             logging.error("Couldn't map files")
             logging.error(e)

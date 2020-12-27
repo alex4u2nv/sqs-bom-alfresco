@@ -57,7 +57,7 @@ class SQS:
             QueueUrl=self.queue_url,
             WaitTimeSeconds=10,
             MaxNumberOfMessages=10,
-            VisibilityTimeout=15
+            VisibilityTimeout=60
         )
 
     def delete_messages(self, event_list: List[Event]):
