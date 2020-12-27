@@ -28,8 +28,6 @@ def main():
     mapper.map()
 
 
-main()
-
 if __name__ == "__main__":
     myname = os.path.basename(sys.argv[0])
     pidfile = '/tmp/%s' % myname

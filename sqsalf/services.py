@@ -15,6 +15,7 @@ class Alfresco:
 
     def __init__(self, connection_script):
         self.connection_script = connection_script
+        logging.getLogger("requests").setLevel(logging.ERROR)
 
     def test_service(self):
         pass
@@ -23,7 +24,7 @@ class Alfresco:
         result = subprocess.run([self.connection_script], stdout=subprocess.PIPE)
         return json.loads(result.stdout.decode("utf-8"))
 
-    def map_files(self, root_noderef:str, files: List) -> Dict:
+    def map_files(self, root_noderef: str, files: List) -> Dict:
         connection = self.get_connection()
         url = connection.get("url") + "/s/bulkobj/mapobjects/{root}?autoCreate=y".format(root=root_noderef)
         logging.info(files)
