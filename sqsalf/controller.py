@@ -29,7 +29,7 @@ class MapCreated:
     def map(self):
         batch_content_list = []
         batch_event_list = []
-
+        sleep_seconds = float(self.config.get("sleep_seconds", 10))
         while True:
             messages = self.sqs.receive_message().get("Messages")
             if messages:
@@ -47,7 +47,7 @@ class MapCreated:
                     self.save(batch_content_list, batch_event_list)
                     batch_content_list = []
                     batch_event_list = []
-                    time.sleep(10)
+                    time.sleep(sleep_seconds)
             else:
                 self.save(batch_content_list, batch_event_list)
                 batch_content_list = []

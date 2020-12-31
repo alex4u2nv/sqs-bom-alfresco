@@ -16,6 +16,7 @@ event:
 import_event: created
 drop_other_events: true # clean up the queue for other events like modified, etc. (since inplace import. it's important there are no deletes, etc.)
 max_batch: 100
+sleep_seconds: 10
 
 alfresco:
   url: https://your.alfresco.com/alfresco
