@@ -8,6 +8,14 @@ for asynchronous ingestion.
 
 # Pre-Requisites
 * Python 3.8
+* SQS Queue where events are published in the following format
+```json
+{
+  "event_type": "modified|created|deleted|moved",
+  "is_directory": true,
+  "src_path": "/path/to/stuff/teststuff"
+}
+```
 
 # Installation
 * Create a Python Virtual Environment for execution
