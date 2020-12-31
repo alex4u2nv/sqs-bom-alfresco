@@ -21,5 +21,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=['argparse', 'boto3', 'daemons', 'PyYAML']
+    install_requires=['argparse', 'boto3', 'daemons', 'PyYAML', 'requests']
 )
